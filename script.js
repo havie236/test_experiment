@@ -1,5 +1,5 @@
 // --- CONFIGURATION ---
-const GOOGLE_SCRIPT_URL = "YOUR_WEB_APP_URL_HERE"; // <--- PASTE YOUR GOOGLE SCRIPT URL HERE
+const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbx0x1mwQLBJ0jkSTBRxgsAgPKyvxWbvzJuzar4ZwJjcjPd5In48m-Y8Yt7xTFJ2hx2O/exec"; // <--- PASTE YOUR GOOGLE SCRIPT URL HERE
 const BLOCK_DURATION_SEC = 10 * 60; // 10 minutes
 const PAY_PER_MATRIX = 2000;        
 
