@@ -3,50 +3,6 @@ const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbx0x1mwQLBJ0j
 const BLOCK_DURATION_SEC = 10 * 60; // 10 minutes
 const PAY_PER_MATRIX = 2000;        
 
-// --- EXPANDED WORD LIST ---
-const WORD_POOL = [
-    "SAC", "SAD", "SAG", "SAP", "SAT", "SAW", "SAY", "SEA", "SEE", "SET", 
-    "SEW", "SHE", "SHY", "SIN", "SIP", "SIR", "SIS", "SIT", "SIX", "SKI", 
-    "SKY", "SLY", "SOB", "SOD", "SON", "SOP", "SOW", "SOY", "SPA", "SPY", 
-    "SUB", "SUE", "SUM", "SUN", 
-    "ACT", "ADD", "AGE", "AIM", "AIR", "ANT", "APE", "ARC", "ARM", "ART", "ASH", "ASK", "AWE", "AXE",
-    "BAD", "BAG", "BAN", "BAR", "BAT", "BAY", "BED", "BEE", "BEG", "BET", "BIB", "BID", "BIG", "BIN", 
-    "BIT", "BOA", "BOB", "BOG", "BOW", "BOX", "BOY", "BUD", "BUG", "BUN", "BUS", "BUT", "BUY", "BYE",
-    "CAB", "CAM", "CAN", "CAP", "CAR", "CAT", "COB", "COD", "COG", "CON", "COO", "COP", "COT", "COW", 
-    "COY", "CRY", "CUB", "CUE", "CUP", "CUT",
-    "DAD", "DAM", "DAY", "DEN", "DEW", "DID", "DIG", "DIM", "DIN", "DIP", "DOC", "DOE", "DOG", "DOT", 
-    "DRY", "DUB", "DUD", "DUE", "DUG", "DYE",
-    "EAR", "EAT", "EBB", "EEL", "EGG", "EGO", "ELK", "ELM", "END", "ERA", "EVE", "EWE", "EYE",
-    "FAN", "FAR", "FAT", "FED", "FEE", "FEW", "FIB", "FIG", "FIN", "FIT", "FIX", "FLU", "FLY", "FOB", 
-    "FOE", "FOG", "FOR", "FOX", "FRY", "FUN", "FUR",
-    "GAG", "GAP", "GAS", "GEL", "GEM", "GET", "GIG", "GIN", "GNU", "GOA", "GOB", "GOD", "GOO", "GOT", 
-    "GUM", "GUN", "GUT", "GYM",
-    "HAD", "HAG", "HAM", "HAS", "HAT", "HAY", "HEM", "HEN", "HER", "HEW", "HEY", "HID", "HIM", "HIP", 
-    "HIS", "HIT", "HOE", "HOG", "HOP", "HOT", "HOW", "HUB", "HUE", "HUG", "HUM", "HUT",
-    "ICE", "ICY", "ILL", "INK", "INN", "ION", "IRE", "IVY",
-    "JAB", "JAM", "JAR", "JAW", "JAY", "JET", "JIG", "JOB", "JOG", "JOY", "JUG", "JUT",
-    "KEG", "KEY", "KID", "KIN", "KIT", "KOI",
-    "LAB", "LAD", "LAG", "LAP", "LAW", "LAX", "LAY", "LEA", "LED", "LEE", "LEG", "LET", "LID", "LIE", 
-    "LIP", "LIT", "LOB", "LOG", "LOT", "LOW", "LUG", "LUX",
-    "MAD", "MAN", "MAP", "MAT", "MAW", "MAX", "MAY", "MEN", "MET", "MEW", "MID", "MIX", "MOB", "MOD", 
-    "MOM", "MOO", "MOP", "MOW", "MUD", "MUG", "MUM",
-    "NAB", "NAG", "NAP", "NAY", "NET", "NEW", "NIL", "NIP", "NOD", "NON", "NOR", "NOT", "NOW", "NUN", "NUT",
-    "OAF", "OAK", "OAR", "OAT", "ODD", "ODE", "OFF", "OIL", "OLD", "ONE", "OPT", "ORB", "ORE", "OUR", 
-    "OUT", "OWL", "OWN",
-    "PAD", "PAL", "PAN", "PAR", "PAT", "PAW", "PAY", "PEA", "PEG", "PEN", "PEP", "PET", "PEW", "PIE", 
-    "PIG", "PIN", "PIP", "PIT", "PLY", "POD", "POP", "POT", "PRO", "PRY", "PUB", "PUG", "PUN", "PUP", "PUT",
-    "RAG", "RAM", "RAN", "RAP", "RAT", "RAW", "RAY", "RED", "RIB", "RID", "RIG", "RIM", "RIP", "ROB", 
-    "ROD", "ROT", "ROW", "RUB", "RUG", "RUM", "RUN", "RUT", "RYE",
-    "TAB", "TAG", "TAN", "TAP", "TAR", "TEA", "TED", "TEE", "TEN", "THE", "TIE", "TIN", "TIP", "TOE", 
-    "TOG", "TON", "TOO", "TOP", "TOT", "TOW", "TOY", "TRY", "TUB", "TUG", "TWO",
-    "URN", "USE",
-    "VAN", "VAT", "VET", "VEX", "VIA", "VIM", "VOW",
-    "WAG", "WAR", "WAX", "WAY", "WEB", "WED", "WEE", "WET", "WHO", "WHY", "WIG", "WIN", "WIT", "WOE", 
-    "WON", "WOW", "WRY",
-    "YAK", "YAM", "YAP", "YEA", "YES", "YET", "YEW", "YIP", "YOU",
-    "ZAP", "ZEN", "ZIG", "ZIP", "ZOO"
-];
-
 // --- STATE VARIABLES ---
 let blockEarnings = 0;
 let totalEarningsGlobal = 25000; 
@@ -70,19 +26,17 @@ const TASK_TYPES = [
         generator: (isTarget) => isTarget ? 0 : 1
     },
     { 
-        id: 'words', 
-        instruction: "Count the words that start with 'S'.", 
-        target: 'S', 
+        id: 'letters', 
+        instruction: "Count the letters 'E' and 'F'.", 
+        target: 'E/F', 
         generator: (isTarget) => {
-            let word;
             if (isTarget) {
-                const targets = WORD_POOL.filter(w => w.startsWith('S'));
-                word = targets[Math.floor(Math.random() * targets.length)];
-            } else {
-                const distractors = WORD_POOL.filter(w => !w.startsWith('S'));
-                word = distractors[Math.floor(Math.random() * distractors.length)];
+                // Randomly pick 'E' or 'F' to be the target to count
+                return Math.random() > 0.5 ? 'E' : 'F';
             }
-            return word;
+            // Distractor letters that are NOT 'E' or 'F'
+            const distractors = ['T', 'H', 'L', 'Z', 'V', 'N', 'X'];
+            return distractors[Math.floor(Math.random() * distractors.length)];
         }
     },
     { 
@@ -184,7 +138,8 @@ function generateMatrix() {
     const gridSize = 8;
     const totalCells = gridSize * gridSize;
 
-    let cellWidth = (activeTask.id === 'words') ? '55px' : '40px';
+    // Standardized cell widths for all tasks
+    let cellWidth = '40px';
     let cellHeight = '40px';
     
     container.style.gridTemplateColumns = `repeat(${gridSize}, ${cellWidth})`;
@@ -201,15 +156,16 @@ function generateMatrix() {
         cell.style.width = cellWidth;
         cell.style.height = cellHeight;
         
+        // Custom font sizing based on the task type
         if (activeTask.id === 'shapes') {
             cell.style.fontSize = '24px'; 
-        } else if (activeTask.id === 'words') {
-            cell.style.fontSize = '15px'; 
+        } else if (activeTask.id === 'letters') {
+            cell.style.fontSize = '22px'; 
             cell.style.fontFamily = 'Arial, Helvetica, sans-serif'; 
-            cell.style.letterSpacing = '0.5px';
         } else {
             cell.style.fontSize = '20px';
         }
+
         container.appendChild(cell);
     }
     
