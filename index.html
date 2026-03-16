@@ -1,0 +1,72 @@
+# test_experiment
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Matrix Task - Baseline Data</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div id="screen-intro" class="screen active">
+        <h1>Welcome</h1>
+        <p style="margin-bottom: 5px;">Thank you for participating. There will be <strong>1 session</strong> in this experiment:</p>
+        
+        <ul style="text-align: left; display: inline-block; max-width: 600px; margin-top: 5px;">
+            <li style="margin-bottom: 15px;">You will see matrices on the screen:
+                <img src="matrix-example.png" alt="Example Matrix" style="max-width: 280px; border: 1px solid #ccc; margin: 10px 0; display: block;">
+            </li>
+            <li style="margin-bottom: 5px;">Your task is to count specific items (e.g., Zeros, Letters, or Shapes).</li>
+            <li style="margin-bottom: 5px;">You will receive a <strong>25,000 VND</strong> fixed show-up fee + <strong>2,000 VND</strong> per correct task.</li>
+            <li style="margin-bottom: 5px;">The session lasts up to <strong>10 minutes</strong>.</li>
+            <li style="margin-bottom: 5px;">You may stop whenever you like. There is no penalty for stopping.</li>
+        </ul>
+        
+        <br><br>
+        <button id="start-btn" onclick="startExperiment()">Start Experiment</button>
+    </div>
+    
+    <div id="screen-block-intro" class="screen hidden">
+        <h2 id="block-title">EXPERIMENT SESSION</h2>
+        <p class="session-time-text">This round lasts up to 10 minutes.</p>
+        
+        <button class="start-session-btn" onclick="startBlock()">Start Session</button>
+    </div>
+
+    <div id="screen-task" class="screen hidden">
+        <div id="score-display">Earnings: <span id="current-earnings">0</span> VND</div>
+        
+        <h3 id="task-instruction-label" style="margin: 10px 0; color: #333;"></h3>
+        
+        <div class="matrix-area">
+            <div id="matrix-container"></div>
+            
+            <div class="input-area">
+                <label>Count:</label>
+                <input type="number" id="user-answer" placeholder="0" oninput="toggleSubmitButton()">
+                <button id="submit-matrix-btn" class="submit-btn" onclick="checkAnswer()" disabled style="opacity: 0.5; cursor: not-allowed;">Submit</button>
+            </div>
+        </div>
+
+        <hr>
+        <button id="btn-stop-working" onclick="stopEarly()" class="leisure-btn">Stop Working</button>
+    </div>
+
+    <div id="screen-end" class="screen hidden">
+        <h2>Experiment Complete</h2>
+        <p>Thank you for your participation.</p>
+        
+        <h3 style="color: #0056b3; margin: 20px 0;">
+            Total Earnings: <span id="final-total-earnings">0</span> VND
+        </h3>
+        
+        <button id="save-data-btn" onclick="saveDataToCloud()" style="margin-bottom: 10px; padding: 15px 30px; font-size: 18px; background-color: #28a745; color: white; border: none; border-radius: 6px; cursor: pointer;">Submit My Results</button>
+        <button id="backup-download-btn" onclick="downloadCSV()" style="display: none; background-color: #6c757d; color: white; margin-bottom: 40px; padding: 10px 20px; border: none; border-radius: 6px; cursor: pointer;">Backup: Download CSV</button>
+        
+        <p id="save-status-msg" style="color: #28a745; font-weight: bold; display: none; margin-bottom: 40px; font-size: 18px;">✅ Data saved successfully! You may close this tab.</p>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
