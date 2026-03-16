@@ -8,21 +8,30 @@
 </head>
 <body>
 
-    <div id="screen-intro" class="screen active">
-        <h1>Welcome</h1>
-        <p style="margin-bottom: 5px;">Thank you for participating. There will be <strong>1 session</strong> in this experiment:</p>
+<div id="screen-intro" class="screen active">
+        <h1 style="text-transform: uppercase;">Welcome</h1>
         
-        <ul style="text-align: left; display: inline-block; max-width: 600px; margin-top: 5px;">
-            <li style="margin-bottom: 15px;">You will see matrices on the screen:
-                <img src="matrix-example.png" alt="Example Matrix" style="max-width: 280px; border: 1px solid #ccc; margin: 10px 0; display: block;">
-            </li>
-            <li style="margin-bottom: 5px;">Your task is to count specific items (e.g., Zeros, Letters, or Shapes).</li>
-            <li style="margin-bottom: 5px;">You will receive a <strong>10,000 VND</strong> fixed show-up fee + <strong>2,000 VND</strong> per correct task.</li>
-            <li style="margin-bottom: 5px;">The session lasts up to <strong>10 minutes</strong>.</li>
-            <li style="margin-bottom: 5px;">You may stop whenever you like. There is no penalty for stopping.</li>
-        </ul>
+        <div style="text-align: left; max-width: 750px; margin: 0 auto; font-size: 16px;">
+            <p>Thank you for participating.</p>
+            <p>In this experiment, you will see one table at a time on the screen. For each table, your task is to count specific items, such as 0s, letters, or shapes.</p>
+            
+            <div style="display: flex; justify-content: space-between; gap: 15px; margin: 20px 0;">
+                <div style="flex: 1; text-align: center;">
+                    <img src="hinh-1.png" alt="Table with 0s" style="width: 100%; max-width: 200px; border: 1px solid #ccc; border-radius: 4px;">
+                </div>
+                <div style="flex: 1; text-align: center;">
+                    <img src="hinh-2.png" alt="Table with Letters" style="width: 100%; max-width: 200px; border: 1px solid #ccc; border-radius: 4px;">
+                </div>
+                <div style="flex: 1; text-align: center;">
+                    <img src="hinh-3.png" alt="Table with Shapes" style="width: 100%; max-width: 200px; border: 1px solid #ccc; border-radius: 4px;">
+                </div>
+            </div>
+
+            <p>You will receive <strong>10,000 VND</strong> for participating, plus <strong>2,000 VND</strong> for each correct answer.</p>
+            <p>The session will take up to <strong>10 minutes</strong>. You may stop at any time without penalty.</p>
+        </div>
         
-        <br><br>
+        <br>
         <button id="start-btn" onclick="startExperiment()">Start Experiment</button>
     </div>
     
