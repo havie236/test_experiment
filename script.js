@@ -1,11 +1,11 @@
 // --- CONFIGURATION ---
-const GOOGLE_SCRIPT_URL = "YOUR_WEB_APP_URL_HERE"; // <--- PASTE YOUR GOOGLE SCRIPT URL HERE
+const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwTb-382RCdi3gz1SdwYAqewjRAkSrab8uhYEfFxKRKYne_GSthlmoi2OmPRLszphji/exec"; // <--- PASTE YOUR GOOGLE SCRIPT URL HERE
 const BLOCK_DURATION_SEC = 10 * 60; // 10 minutes
 const PAY_PER_MATRIX = 2000;        // 2,000 VND
 
 // --- STATE VARIABLES ---
 let blockEarnings = 0;
-let totalEarningsGlobal = 20000; // Fixed show-up fee is 20,000 VND
+let totalEarningsGlobal = 0; // Starts at 0 VND
 let timerInterval;
 let matrixStartTime = 0;
 let currentTargetCount = 0; 
@@ -27,7 +27,7 @@ const TASK_TYPES = [
     },
     { 
         id: 'letters', 
-        instruction: "Count the letter 'E'.", // Count the number of letter 'E'
+        instruction: "Count the letter 'E'.", 
         target: 'E', 
         generator: (isTarget) => isTarget ? 'E' : 'F' 
     },
@@ -80,7 +80,7 @@ function toggleSubmitButton() {
 }
 
 function startExperiment() {
-    totalEarningsGlobal = 20000; // Reset with fixed show-up fee
+    totalEarningsGlobal = 0; // Reset balance to 0 
     detailedLog = []; 
     
     // RANDOMLY SELECT THE 1 TASK FOR THIS PARTICIPANT
@@ -296,13 +296,15 @@ function saveDataToCloud() {
     saveBtn.disabled = true;
     saveBtn.style.opacity = "0.5";
 
+    // Updated fetch request to prevent CORS blocking
     fetch(GOOGLE_SCRIPT_URL, {
         method: "POST",
-        mode: "no-cors", 
-        headers: { "Content-Type": "application/json" },
+        headers: {
+            "Content-Type": "text/plain;charset=utf-8" 
+        },
         body: JSON.stringify(detailedLog)
     })
-    .then(() => {
+    .then((response) => {
         saveBtn.style.display = "none";
         document.getElementById('save-status-msg').style.display = "block";
     })
