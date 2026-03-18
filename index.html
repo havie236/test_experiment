@@ -9,12 +9,18 @@
 <body>
 
 <div id="screen-intro" class="screen active">
-        <h1 style="text-transform: uppercase;">Welcome</h1>
+        <h1 style="text-transform: uppercase;">Instructions</h1>
         
         <div style="text-align: left; max-width: 750px; margin: 0 auto; font-size: 16px;">
-            <p>Thank you for participating.</p>
-            <p>In this experiment, you will see one table at a time on the screen. For each table, your task is to count specific items, such as 0s, letters, or shapes.</p>
+            <p>Thank you for participating in this experiment.</p>
+            <p>In this task, you will be asked to count specific items. You may be asked to:</p>
             
+            <ul style="margin-bottom: 20px;">
+                <li style="margin-bottom: 5px;">Count the number of zeros (0) in a table containing 1s and 0s</li>
+                <li style="margin-bottom: 5px;">Count the number of letter “E” in a table containing E and F</li>
+                <li style="margin-bottom: 5px;">Count the number of triangles in a table containing triangles and circles</li>
+            </ul>
+
             <div style="display: flex; justify-content: space-between; gap: 15px; margin: 20px 0;">
                 <div style="flex: 1; text-align: center;">
                     <img src="hinh-1.png" alt="Table with 0s" style="width: 100%; max-width: 200px; border: 1px solid #ccc; border-radius: 4px;">
@@ -26,6 +32,14 @@
                     <img src="hinh-3.png" alt="Table with Shapes" style="width: 100%; max-width: 200px; border: 1px solid #ccc; border-radius: 4px;">
                 </div>
             </div>
+
+            <p>You will receive <strong>20,000 VND</strong> for participating in this experiment, plus an additional <strong>2,000 VND</strong> for each correct answer.</p>
+            <p>The experiment will take approximately <strong>10 minutes</strong> to complete. You may stop at any time without penalty.</p>
+        </div>
+        
+        <br>
+        <button id="start-btn" onclick="startExperiment()">Start Experiment</button>
+    </div>
 
             <p>You will receive <strong>20,000 VND</strong> for participating, plus <strong>2,000 VND</strong> for each correct answer.</p>
             <p>The session will take up to <strong>10 minutes</strong>. You may stop at any time without penalty.</p>
