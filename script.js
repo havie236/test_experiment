@@ -23,21 +23,21 @@ let currentGridSize = 4; // Biến mới để theo dõi kích thước lưới 
 const TASK_TYPES = [
     { 
         id: 'numbers', 
-        instruction: "Count the number of Zeros (0).", 
-        target: 0, 
-        generator: (isTarget) => isTarget ? 0 : 1
+        instruction: "Count the number of Threes (3).", // Đổi câu lệnh thành đếm số 3
+        target: 3, 
+        generator: (isTarget) => isTarget ? 3 : 8       // Đúng là 3, sai là 8
     },
     { 
         id: 'letters', 
         instruction: "Count the letter 'E'.", 
         target: 'E', 
-        generator: (isTarget) => isTarget ? 'E' : 'F' 
+        generator: (isTarget) => isTarget ? 'E' : 'F'   // (Giữ nguyên)
     },
     { 
         id: 'shapes', 
-        instruction: "Count the TRIANGLES (▲).", 
+        instruction: "Count the UPWARD TRIANGLES (▲).", // Đổi câu lệnh thành đếm tam giác hướng lên
         target: '▲', 
-        generator: (isTarget) => isTarget ? '▲' : '●'
+        generator: (isTarget) => isTarget ? '▲' : '▼'   // Đúng là ▲, sai là ▼
     }
 ];
 
