@@ -1,7 +1,7 @@
 // --- CONFIGURATION ---
 const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwTb-382RCdi3gz1SdwYAqewjRAkSrab8uhYEfFxKRKYne_GSthlmoi2OmPRLszphji/exec"; // <--- PASTE YOUR GOOGLE SCRIPT URL HERE
-const BLOCK_DURATION_SEC = 10 * 60; // 10 minutes
-const PAY_PER_MATRIX = 2000;        // 2,000 VND
+const BLOCK_DURATION_SEC = 15 * 60; // 15 minutes
+const PAY_PER_MATRIX = 620;        // 620 VND
 
 // --- STATE VARIABLES ---
 let participantId = ""; // Unique ID for the participant
@@ -17,6 +17,7 @@ let matrixTabSwitches = 0;
 let matrixSwitchHistory = []; 
 let detailedLog = []; 
 let activeTask = null; 
+let currentGridSize = 4; // Biến mới để theo dõi kích thước lưới hiện tại
 
 // --- TASKS DEFINITIONS ---
 const TASK_TYPES = [
@@ -83,6 +84,7 @@ function toggleSubmitButton() {
 function startExperiment() {
     totalEarningsGlobal = 0; 
     detailedLog = []; 
+    attemptGlobalCounter = 0; // Đảm bảo đếm câu hỏi từ 0 khi bắt đầu
     
     // GENERATE UNIQUE PARTICIPANT ID (e.g., P_4F8A9B)
     participantId = "P_" + Math.random().toString(36).substr(2, 6).toUpperCase();
@@ -128,12 +130,16 @@ function generateMatrix() {
     matrixTabSwitches = 0; 
     matrixSwitchHistory = []; 
 
-    const gridSize = 8;
-    const totalCells = gridSize * gridSize;
+    // --- TÍNH TOÁN KÍCH THƯỚC LƯỚI ĐỘNG ---
+    const baseSize = 4; // Bắt đầu bằng lưới 4x4
+    const sizeIncrease = Math.floor(attemptGlobalCounter / 2); // Cứ sau 2 câu thì tăng lên 1
+    currentGridSize = baseSize + sizeIncrease; // Cập nhật biến State
+
+    const totalCells = currentGridSize * currentGridSize;
     let cellWidth = '40px';
     let cellHeight = '40px';
     
-    container.style.gridTemplateColumns = `repeat(${gridSize}, ${cellWidth})`;
+    container.style.gridTemplateColumns = `repeat(${currentGridSize}, ${cellWidth})`;
 
     for (let i = 0; i < totalCells; i++) {
         let isTarget = Math.random() > 0.5;
@@ -179,11 +185,12 @@ function checkAnswer() {
     const historyString = matrixSwitchHistory.join(" | ");
 
     detailedLog.push({
-        participant_id: participantId, // ID INCLUDED HERE
+        participant_id: participantId, 
         attempt_id: attemptGlobalCounter,
         block_number: 1, 
         condition: 'Baseline', 
         task_type: activeTask.id, 
+        grid_size: `${currentGridSize}x${currentGridSize}`, // Lưu lại lưới hiện tại
         user_guess: userInput,
         actual_answer: currentTargetCount,
         is_correct: isCorrect,
@@ -234,11 +241,12 @@ function logAbandonedAttempt(reason) {
     attemptGlobalCounter++;
 
     detailedLog.push({
-        participant_id: participantId, // ID INCLUDED HERE
+        participant_id: participantId, 
         attempt_id: attemptGlobalCounter,
         block_number: 1,
         condition: 'Baseline',
         task_type: activeTask.id,
+        grid_size: `${currentGridSize}x${currentGridSize}`, // Lưu lại lưới hiện tại
         user_guess: "ABANDONED", 
         actual_answer: currentTargetCount,
         is_correct: "FALSE", 
@@ -317,8 +325,9 @@ function saveDataToCloud() {
 function downloadCSV() {
     if (detailedLog.length === 0) return;
     
+    // Thêm cột Grid_Size vào file xuất
     const headers = [
-        "Participant_ID", "Attempt_ID", "Block", "Condition", "Task_Type", 
+        "Participant_ID", "Attempt_ID", "Block", "Condition", "Task_Type", "Grid_Size",
         "Is_Correct", "User_Guess", "Actual_Answer", "Time_Spent_Sec", 
         "Switch_Count", "Switch_History", 
         "Block_Duration_Total", "Note",
@@ -328,7 +337,7 @@ function downloadCSV() {
     ];
 
     const rows = detailedLog.map(row => [
-        row.participant_id, row.attempt_id, row.block_number, row.condition, row.task_type, 
+        row.participant_id, row.attempt_id, row.block_number, row.condition, row.task_type, row.grid_size, 
         row.is_correct, row.user_guess, row.actual_answer, row.time_spent_seconds, 
         row.tab_switches_count, row.switch_history, row.block_total_duration, 
         row.note || "", row.satisfaction, row.boredom, row.timestamp,
