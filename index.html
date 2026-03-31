@@ -3,84 +3,241 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Matrix Task - Baseline Data</title>
+    <title>Counting Task Experiment</title>
     <link rel="stylesheet" href="style.css">
+    <style>
+        .hidden { display: none !important; }
+        .active { display: block; }
+        body { font-family: Arial, sans-serif; background-color: #f4f4f9; color: #333; margin: 0; padding: 20px; }
+        .screen { max-width: 800px; margin: 0 auto; background: #fff; padding: 30px; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+        .btn { background-color: #2557a7; color: white; border: none; padding: 12px 25px; font-size: 16px; border-radius: 4px; cursor: pointer; font-weight: bold; margin-top: 20px; }
+        .btn:hover { background-color: #1a407b; }
+        .btn:disabled { background-color: #ccc; cursor: not-allowed; }
+        .form-group { margin-bottom: 20px; text-align: left; }
+        .form-group label { display: block; font-weight: bold; margin-bottom: 8px; }
+        .form-group select, .form-group input { width: 100%; padding: 10px; font-size: 16px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; }
+        
+        /* GIAO DIỆN BẢNG SỐ CLASSIC GIỐNG HÌNH CỦA GIÁO SƯ */
+        .matrix-wrapper { text-align: center; margin: 20px 0; }
+        #matrix-container { 
+            display: inline-block; 
+            background-color: #e8e9db; 
+            border: 1px solid #000;    
+            padding: 30px 50px; 
+            font-family: 'Courier New', Courier, monospace; 
+            font-size: 24px;           
+            letter-spacing: 3px;       
+            line-height: 1.8;          
+            text-align: left;          
+        }
+        .matrix-row { margin: 0; padding: 0; }
+    </style>
 </head>
 <body>
 
-<div id="screen-intro" class="screen active">
-        <h1 style="text-transform: uppercase;">Instructions</h1>
-        
-        <div style="text-align: left; max-width: 750px; margin: 0 auto; font-size: 16px;">
-            <p>Thank you for participating in this experiment.</p>
-            <p>In this task, you will be asked to count specific items. You may be asked to:</p>
+    <div id="screen-intro" class="screen active">
+        <h1 style="text-transform: uppercase; text-align: center;">Instructions for Part 1</h1>
+        <div style="font-size: 16px; line-height: 1.6;">
+            <p>In this experiment, your task is to count zeros in a series of tables.</p>
+            <p>Enter the number of zeros into the box on the screen. After you have entered the number, click the OK button. If you enter the correct result, a new table will be generated.</p>
+            <p>If your input was wrong, you have two additional tries to enter the correct number into the table. You therefore have a total of three tries to solve each table.</p>
             
-            <ul style="margin-bottom: 20px;">
-                <li style="margin-bottom: 5px;">Count the number of threes (3) in a table containing 3s and 8s</li>
-                <li style="margin-bottom: 5px;">Count the number of letter “E” in a table containing E and F</li>
-                <li style="margin-bottom: 5px;">Count the number of upward triangles (▲) in a table containing upward (▲) and downward (▼) triangles</li>
-            </ul>
-
-            <div style="display: flex; justify-content: space-between; gap: 15px; margin: 20px 0;">
-                <div style="flex: 1; text-align: center;">
-                    <img src="hinh-1.png" alt="Table with 0s" style="width: 100%; max-width: 200px; border: 1px solid #ccc; border-radius: 4px;">
-                </div>
-                <div style="flex: 1; text-align: center;">
-                    <img src="hinh-2.png" alt="Table with Letters" style="width: 100%; max-width: 200px; border: 1px solid #ccc; border-radius: 4px;">
-                </div>
-                <div style="flex: 1; text-align: center;">
-                    <img src="hinh-3.png" alt="Table with Shapes" style="width: 100%; max-width: 200px; border: 1px solid #ccc; border-radius: 4px;">
-                </div>
+            <div style="background: #e9ecef; padding: 15px; border-radius: 6px; margin: 20px 0;">
+                <strong>Rules for Part 1:</strong>
+                <ul>
+                    <li>You have exactly <strong>4 minutes</strong> to count as many tables as possible.</li>
+                    <li>You receive <strong>400 VND</strong> for each table you solve correctly.</li>
+                    <li>If you enter three times a wrong number for a table, <strong>400 VND</strong> will be subtracted from your earnings and a new table will then be generated.</li>
+                </ul>
             </div>
+            
+            <div style="text-align: center; margin-top: 30px; padding-top: 20px; border-top: 1px solid #eee;">
+                <label style="font-weight: bold; display: block; margin-bottom: 10px;">Enter your Experiment Code (1=Low, 2=High):</label>
+                <input type="text" id="user-code-input" placeholder="e.g. 1" style="padding: 10px; width: 100px; text-align: center; font-size: 18px;">
+                <br>
+                <button class="btn" onclick="goToPreSurvey()">Next</button>
+            </div>
+        </div>
+    </div> 
 
-            <p>You will receive <strong>620 VND</strong> for each correct answer.</p>
-            <p>The experiment will take approximately <strong>10 minutes</strong> to complete. You may stop at any time without penalty.</p>
+    <div id="screen-pre-survey" class="screen hidden">
+        <h2 style="text-align: center;">Participant Information</h2>
+        <p style="text-align: center; color: #666; margin-bottom: 30px;">Please provide some basic information before we begin.</p>
+        
+        <div class="form-group">
+            <label>What is your Gender?</label>
+            <select id="survey-gender">
+                <option value="">Select...</option>
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+                <option value="Other">Other</option>
+                <option value="Prefer not to say">Prefer not to say</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label>What is your Cohort?</label>
+            <select id="survey-cohort">
+                <option value="">Select...</option>
+                <option value="2025">2025</option>
+                <option value="2026">2026</option>
+                <option value="2027">2027</option>
+                <option value="2028">2028</option>
+                <option value="2029">2029</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label>What is your Major?</label>
+            <select id="survey-major">
+                <option value="">Select...</option>
+                <option value="Applied Mathematics">Applied Mathematics</option>
+                <option value="Art and Media Studies">Art and Media Studies</option>
+                <option value="Computer Science">Computer Science</option>
+                <option value="Economics">Economics</option>
+                <option value="History">History</option>
+                <option value="Human-Centered Engineering">Human-Centered Engineering</option>
+                <option value="Integrated Sciences">Integrated Sciences</option>
+                <option value="Literature">Literature</option>
+                <option value="Psychology">Psychology</option>
+                <option value="Social Studies">Social Studies</option>
+                <option value="Vietnam Studies">Vietnam Studies</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label>What is your Graduating Year?</label>
+            <input type="number" id="survey-grad-year" placeholder="e.g. 2026">
+        </div>
+
+        <button class="btn" onclick="submitPreSurvey()" style="width: 100%;">Continue</button>
+    </div>
+
+    <div id="screen-comprehension" class="screen hidden">
+        <h2 style="text-align: center;">Comprehension Check</h2>
+        <p style="color: #d9534f; font-weight: bold; text-align: center;">Please answer the following question to make sure you understand the rules for Part 1.</p>
+        
+        <div style="background: #f8f9fa; padding: 20px; border: 1px solid #ccc; border-radius: 6px; margin-bottom: 20px;">
+            <p style="font-size: 16px; margin-top: 0;">Assume you have solved 5 tables correctly, and you entered the wrong number 3 times on one table.</p>
+            <label style="font-weight: bold;">What are your total earnings in VND?</label>
+            <div style="display: flex; gap: 10px; align-items: center; margin-top: 10px;">
+                <input type="number" id="comp-check-answer" placeholder="VND" style="padding: 10px; font-size: 16px; width: 150px;">
+                <span>VND</span>
+            </div>
         </div>
         
-        <br>
-        <button id="start-btn" onclick="startExperiment()">Start Experiment</button>
+        <button class="btn" onclick="checkComprehension()" style="width: 100%;">Submit Answer</button>
     </div>
 
-    
-    <div id="screen-block-intro" class="screen hidden">
-        <h2 id="block-title">EXPERIMENT SESSION</h2>
-        <p class="session-time-text">This experiment lasts up to 10 minutes.</p>
+    <div id="screen-treatment" class="screen hidden">
+        <h1 style="text-transform: uppercase; text-align: center; color: #2557a7;">Instructions for Part 2</h1>
         
-        <button class="start-session-btn" onclick="startBlock()">Start Session</button>
+        <div style="font-size: 16px; line-height: 1.6; margin-bottom: 30px;">
+            <p>Great job! You have finished Part 1. The task remains the same, but <strong>new rules</strong> are now in effect:</p>
+            <div style="background: #fff3cd; padding: 15px; border-left: 5px solid #ffc107; border-radius: 4px; margin: 20px 0;">
+                <ul>
+                    <li>For each correctly solved table you will be credited <strong>820 VND</strong>.</li>
+                    <li>After three wrong inputs, <strong>820 VND</strong> will be subtracted from your earnings.</li>
+                    <li>You can now work for up to <strong>60 minutes</strong>.</li>
+                    <li>You can decide yourself when you want to stop working by clicking the red "Stop working" button.</li>
+                </ul>
+            </div>
+        </div>
+
+        <div style="max-width: 600px; margin: 30px auto; padding: 30px; background-color: #e8f4f8; border: 2px solid #2557a7; border-radius: 8px; font-size: 20px; line-height: 1.6; text-align: center;">
+            <p id="treatment-message"></p>
+        </div>
+        <div style="text-align: center;">
+            <button class="btn" onclick="startRound2()" style="padding: 15px 30px; font-size: 18px;">Start Part 2 (60 Minutes)</button>
+        </div>
     </div>
 
-    <div id="screen-task" class="screen hidden">
-        <div id="score-display">Earnings: <span id="current-earnings">0</span> VND</div>
+    <div id="screen-task" class="screen hidden" style="max-width: 900px;">
+        <h2 id="task-title" style="text-align: center; color: #2557a7; margin-top: 0;">Part 1</h2>
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; border-bottom: 2px solid #eee; padding-bottom: 15px;">
+            <div style="font-size: 18px; color: #d9534f; font-weight: bold;">
+                Time left: <span id="timer-display">00:00</span>
+            </div>
+            <div style="font-size: 24px; font-weight: bold; color: #28a745;"> 
+                Earnings: <span id="current-earnings">0</span> VND 
+            </div>
+        </div>
         
-        <h3 id="task-instruction-label" style="margin: 10px 0; color: #333;"></h3>
-        
-        <div class="matrix-area">
+        <h3 style="text-align: center; margin: 0;">Count the number of zeros (0).</h3>
+        <p style="text-align: center; color: #d9534f; margin-top: 5px; font-weight: bold;" id="attempts-warning"></p>
+
+        <div class="matrix-wrapper">
             <div id="matrix-container"></div>
-            
-            <div class="input-area">
-                <label>Count:</label>
-                <input type="number" id="user-answer" placeholder="0" oninput="toggleSubmitButton()">
-                <button id="submit-matrix-btn" class="submit-btn" onclick="checkAnswer()" disabled style="opacity: 0.5; cursor: not-allowed;">Submit</button>
-            </div>
+        </div>
+        
+        <div style="text-align: center; margin-top: 15px;">
+            <label style="font-size: 18px; font-weight: bold;">How many zeros are in the table?</label> <br>
+            <input type="number" id="user-answer" style="font-size: 18px; padding: 10px; width: 100px; text-align: center; margin: 10px 0;">
+            <button id="submit-matrix-btn" class="btn" onclick="checkAnswer()" style="margin: 0 0 0 10px;">OK</button>
+        </div>
+        
+        <div id="stop-btn-container" style="text-align: center; margin-top: 40px; display: none;">
+            <button onclick="stopEarly()" style="background-color: #d9534f; color: white; border: none; padding: 10px 20px; border-radius: 4px; cursor: pointer; font-weight: bold;">Stop working</button>
         </div>
 
-        <hr>
-        <button id="btn-stop-working" onclick="stopEarly()" class="leisure-btn">End Experiment & Next Step</button>
+        <div style="max-width: 700px; margin: 30px auto 0; font-size: 13px; color: #666; padding: 15px; background-color: #f8f9fa; border: 1px solid #e9ecef; border-radius: 6px; text-align: center;">
+            You are free to use your laptop for non-task activities. However, you must complete the task independently. The use of AI tools (e.g., ChatGPT) or automated counting tools is strictly prohibited.
+        </div>
+    </div>
+
+    <div id="screen-post-survey" class="screen hidden">
+        <h2 style="text-align: center;">End of Session Survey</h2>
+        
+        <div class="form-group">
+            <label>1. On a scale from 1 to 7, how competitive do you consider yourself?</label>
+            <div style="font-size: 14px; color: #666; margin-bottom: 10px;">(1 = Not competitive at all, 7 = Very competitive)</div>
+            <select id="post-competitiveness">
+                <option value="">Select...</option>
+                <option value="1">1</option><option value="2">2</option><option value="3">3</option>
+                <option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label>2. Do you think you completed MORE tasks than the average person?</label>
+            <select id="post-better-average">
+                <option value="">Select...</option>
+                <option value="Yes">Yes</option>
+                <option value="No">No</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label>3. How satisfied are you with your earnings from this experiment?</label>
+            <div style="font-size: 14px; color: #666; margin-bottom: 10px;">(1 = Not at all satisfied, 7 = Very satisfied)</div>
+            <select id="post-satisfaction">
+                <option value="">Select...</option>
+                <option value="1">1</option><option value="2">2</option><option value="3">3</option>
+                <option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option>
+            </select>
+        </div>
+
+        <button class="btn" onclick="submitPostSurvey()" style="width: 100%;">Finish Experiment</button>
     </div>
 
     <div id="screen-end" class="screen hidden">
-        <h2>Experiment Complete</h2>
-        <p>Thank you for your participation. Please submit your results to see your final earnings.</p>
+        <h2 style="text-align: center;">Experiment Complete</h2>
         
-        <h3 id="earnings-display-area" style="color: #0056b3; margin: 20px 0; display: none;">
-            Total Earnings: <span id="final-total-earnings">0</span> VND
-        </h3>
+        <h3 style="text-align: center; color: #28a745; font-size: 28px; margin: 30px 0;">Total Earnings: <span id="final-total-earnings">0</span> VND</h3>
         
-        <button id="save-data-btn" onclick="saveDataToCloud()" style="margin-bottom: 10px; padding: 15px 30px; font-size: 18px; background-color: #28a745; color: white; border: none; border-radius: 6px; cursor: pointer;">Submit Result & Reveal Earnings</button>
-        
-        <button id="backup-download-btn" onclick="downloadCSV()" style="display: none; background-color: #6c757d; color: white; margin-bottom: 40px; padding: 10px 20px; border: none; border-radius: 6px; cursor: pointer;">Backup: Download CSV</button>
-        
-        <p id="save-status-msg" style="color: #28a745; font-weight: bold; display: none; margin-bottom: 40px; font-size: 18px;">✅ Data saved successfully! You may close this tab.</p>
+        <div style="text-align: center; margin-bottom: 30px;">
+            <button id="save-data-btn" class="btn" onclick="saveDataToCloud()" style="background-color: #28a745;">Save Data to Cloud</button>
+            <p id="save-status-msg" style="display: none; color: #28a745; font-weight: bold; margin-top: 15px;">✅ Data saved successfully!</p>
+        </div>
+
+        <div style="background: #fdfdfd; padding: 25px; border: 1px solid #ddd; border-radius: 8px; font-size: 15px; line-height: 1.6;">
+            <h3 style="margin-top: 0; border-bottom: 1px solid #eee; padding-bottom: 10px;">Debriefing Statement</h3>
+            <p>Thank you for participating in this study.</p>
+            <p>The purpose of this experiment is to understand how simply seeing information about a peer’s earnings influences your effort in a task.</p>
+            <p>During the experiment, you may have seen information about the average earnings of previous participants. This information was intentionally varied (higher or lower benchmark) across different participants to study how different reference points affect work behavior.</p>
+            <p>The benchmark numbers are used only for research purposes and did not affect your payment rate. Your actual earnings are calculated purely based on your own performance.</p>
+            <p>Thank you again for your time and contribution to this research!</p>
+        </div>
     </div>
 
     <script src="script.js"></script>
