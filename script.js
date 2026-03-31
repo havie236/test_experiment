@@ -15,6 +15,8 @@ let assignedCondition = "";
 let totalEarningsGlobal = 0; 
 let currentRound = 1; 
 
+let currentRoundCorrectCount = 0; // Đếm số bảng đúng trong vòng hiện tại
+
 // User Info
 let userGender = "";
 let userCohort = "";
@@ -41,7 +43,8 @@ function showScreen(id) {
 }
 
 function updateCorrectUI() { 
-    document.getElementById('current-earnings').innerText = totalEarningsGlobal.toLocaleString(); 
+    document.getElementById('tables-correct-count').innerText = currentRoundCorrectCount;
+    document.getElementById('current-earnings-text').innerText = totalEarningsGlobal.toLocaleString() + " VND"; 
 }
 
 // --- 1. INTRO & PRE-SURVEY ---
@@ -68,9 +71,10 @@ function submitPreSurvey() {
     showScreen('screen-comprehension');
 }
 
-// --- 2. COMPREHENSION CHECK (For Part 1) ---
-function checkComprehension() {
+// --- 2. COMPREHENSION CHECK 1 (For Part 1) ---
+function checkComprehension1() {
     let ans = parseInt(document.getElementById('comp-check-answer').value);
+    // Tính toán Part 1: 5 * 400 - 400 = 1600 VND
     if(ans === 1600) {
         alert("Correct! You fully understand the rules for Part 1.");
         startRound1();
@@ -79,20 +83,33 @@ function checkComprehension() {
     }
 }
 
-// --- 3. PART 1 (4 MINUTES) ---
+// --- 3. COMPREHENSION CHECK 2 (For Part 2) ---
+function checkComprehension2() {
+    let ans = parseInt(document.getElementById('comp-check-answer-2').value);
+    // Tính toán Part 2: 5 * 820 - 820 = 3280 VND
+    if(ans === 3280) {
+        alert("Correct! You fully understand the new rules.");
+        showTreatmentScreen();
+    } else {
+        alert("Incorrect. Let's calculate together: \n5 correct tables = 5 x 820 = 4100 VND.\n1 table with 3 wrong attempts = -820 VND.\nTotal = 4100 - 820 = 3280 VND.\nPlease enter 3280 to continue.");
+    }
+}
+
+// --- 4. PART 1 (4 MINUTES) ---
 function startRound1() {
     currentRound = 1;
+    currentRoundCorrectCount = 0;
+    
     showScreen('screen-task');
-    document.getElementById('task-title').innerText = "Part 1 (4 Minutes)";
+    document.getElementById('task-top-text').innerHTML = "You have 4 minutes, to count as many tables as possible.<br>The remaining time is shown in the upper right hand corner.";
     document.getElementById('stop-btn-container').style.display = "none"; 
     
-    totalEarningsGlobal = 0;
     updateCorrectUI();
     generateMatrix();
     startTimer(R1_DURATION_SEC);
 }
 
-// --- 4. TREATMENT SCREEN (BETWEEN ROUND 1 & 2) ---
+// --- 5. TREATMENT SCREEN (BETWEEN ROUND 1 & 2) ---
 function showTreatmentScreen() {
     let msgElement = document.getElementById('treatment-message');
     
@@ -105,11 +122,13 @@ function showTreatmentScreen() {
     showScreen('screen-treatment');
 }
 
-// --- 5. PART 2 (60 MINUTES) ---
+// --- 6. PART 2 (60 MINUTES) ---
 function startRound2() {
     currentRound = 2;
+    currentRoundCorrectCount = 0; // Đếm lại số bảng của Part 2
+    
     showScreen('screen-task');
-    document.getElementById('task-title').innerText = "Part 2 (60 Minutes)";
+    document.getElementById('task-top-text').innerHTML = "You can count zeros as long as you want, up to 60 minutes.<br>The remaining time is shown in the upper right hand corner.";
     document.getElementById('stop-btn-container').style.display = "block"; 
     
     updateCorrectUI();
@@ -172,6 +191,7 @@ function checkAnswer() {
     });
 
     if (isCorrect) { 
+        currentRoundCorrectCount++;
         totalEarningsGlobal += currentPayRate; 
         updateCorrectUI(); 
         generateMatrix(); 
@@ -208,16 +228,15 @@ function startTimer(sec) {
         if (left <= 0) { 
             clearInterval(timerInterval);
             if (currentRound === 1) {
-                alert("Time is up! Part 1 has ended. Please read the instructions for Part 2.");
-                showTreatmentScreen();
+                alert("Time is up! Part 1 has ended. Please click OK to continue.");
+                showScreen('screen-intro-2');
             } else {
                 alert("Time is up! Part 2 has ended.");
                 showScreen('screen-post-survey');
             }
         } else {
-            let m = Math.floor(left / 60).toString().padStart(2, '0');
-            let s = (left % 60).toString().padStart(2, '0');
-            document.getElementById('timer-display').innerText = `${m}:${s}`;
+            // HIỂN THỊ ĐẾM NGƯỢC DẠNG TỔNG SỐ GIÂY (GIỐNG HÌNH)
+            document.getElementById('timer-display').innerText = left;
         }
     }, 1000);
 }
@@ -247,7 +266,7 @@ function submitPostSurvey() {
         row.competitiveness = comp;
         row.better_than_average = betterAvg;
         row.earnings_satisfaction = sat;
-        row.stop_reason = stopReason; // Ghi đè lý do dừng vào log
+        row.stop_reason = stopReason; 
         row.final_total_earnings = totalEarningsGlobal;
     });
 
