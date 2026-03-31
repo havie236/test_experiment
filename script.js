@@ -1,5 +1,5 @@
 // --- CONFIGURATION ---
-const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzTUdz9Ck6QXx0l8Ce2U6qaRI_bgKu97nWOa3yW2TEETgG4JYU1lK_q4FrHoJZRQvkQ3Q/exec"; 
+const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzh35NK0U2h2ciFVQ68S-irw5tQKfnkKxr8ltA2gFb6cZOhxN2B7zYy0w_lfBffaiT_/exec"; 
 
 // Round 1 Specs
 const R1_DURATION_SEC = 4 * 60; // 4 phút
