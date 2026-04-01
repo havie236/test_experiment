@@ -2,7 +2,7 @@
 const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbz2uMipYWOvUMxzm6sJfX3A2Uy8GStOlkKNHQpyVMttirowdZS9823AQQ22SFT0t78q/exec"; 
 
 // Round 1 Specs
-const R1_DURATION_SEC = 5; // 4 phút
+const R1_DURATION_SEC = 4 * 60; // 4 phút
 const R1_PAY = 400;
 
 // Round 2 Specs
