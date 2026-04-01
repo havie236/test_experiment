@@ -7,7 +7,7 @@ const R1_PAY = 400;
 
 // Round 2 Specs
 const R2_DURATION_SEC = 60 * 60; // 60 phút
-const R2_PAY = 1100;
+const R2_PAY = 1020;
 
 // --- STATE VARIABLES ---
 let participantId = ""; 
@@ -86,12 +86,12 @@ function checkComprehension1() {
 // --- 3. COMPREHENSION CHECK 2 (For Part 2) ---
 function checkComprehension2() {
     let ans = parseInt(document.getElementById('comp-check-answer-2').value);
-    // Tính toán Part 2: 5 * 1100 - 1100 = 4400 VND
+    // Tính toán Part 2: 5 * 1020 - 1020 = 4080 VND
     if(ans === 4400) {
         alert("Correct! You fully understand the new rules.");
         showTreatmentScreen();
     } else {
-        alert("Incorrect. Let's calculate together: \n5 correct tables = 5 x 1100 = 5500 VND.\n1 table with 3 wrong attempts = -1100 VND.\nTotal = 5500 - 1100 = 4480 VND.\nPlease enter 4400 to continue.");
+        alert("Incorrect. Let's calculate together: \n5 correct tables = 5 x 1020 = 5100 VND.\n1 table with 3 wrong attempts = -1020 VND.\nTotal = 5100 - 1020 = 4080 VND.\nPlease enter 4080 to continue.");
     }
 }
 
