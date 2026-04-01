@@ -7,7 +7,7 @@ const R1_PAY = 400;
 
 // Round 2 Specs
 const R2_DURATION_SEC = 60 * 60; // 60 phút
-const R2_PAY = 820;
+const R2_PAY = 1100;
 
 // --- STATE VARIABLES ---
 let participantId = ""; 
@@ -86,12 +86,12 @@ function checkComprehension1() {
 // --- 3. COMPREHENSION CHECK 2 (For Part 2) ---
 function checkComprehension2() {
     let ans = parseInt(document.getElementById('comp-check-answer-2').value);
-    // Tính toán Part 2: 5 * 820 - 820 = 3280 VND
-    if(ans === 3280) {
+    // Tính toán Part 2: 5 * 1100 - 1100 = 4400 VND
+    if(ans === 4400) {
         alert("Correct! You fully understand the new rules.");
         showTreatmentScreen();
     } else {
-        alert("Incorrect. Let's calculate together: \n5 correct tables = 5 x 820 = 4100 VND.\n1 table with 3 wrong attempts = -820 VND.\nTotal = 4100 - 820 = 3280 VND.\nPlease enter 3280 to continue.");
+        alert("Incorrect. Let's calculate together: \n5 correct tables = 5 x 1100 = 5500 VND.\n1 table with 3 wrong attempts = -1100 VND.\nTotal = 5500 - 1100 = 4480 VND.\nPlease enter 4400 to continue.");
     }
 }
 
@@ -133,9 +133,9 @@ function startRound2() {
     // Tạo câu Treatment KHÔNG in đậm để gắn thẳng vào màn hình làm bài Part 2
     let treatmentPhrase = "";
     if (assignedCondition === "Low") {
-        treatmentPhrase = `On average, Fulbright students in major ${userMajor} in cohort ${userCohort} earn 24,600 VND in this round.<br>`;
+        treatmentPhrase = `On average, Fulbright students in major ${userMajor} in cohort ${userCohort} earn 33,000 VND in this round.<br>`;
     } else if (assignedCondition === "High") {
-        treatmentPhrase = `On average, Fulbright students in major ${userMajor} in cohort ${userCohort} earn 41,000 VND from this round.<br>`;
+        treatmentPhrase = `On average, Fulbright students in major ${userMajor} in cohort ${userCohort} earn 55,000 VND from this round.<br>`;
     }
 
     // Ghim trực tiếp câu treatment lên trên dòng hướng dẫn
