@@ -87,7 +87,7 @@ function checkComprehension1() {
 function checkComprehension2() {
     let ans = parseInt(document.getElementById('comp-check-answer-2').value);
     // Tính toán Part 2: 5 * 1020 - 1020 = 4080 VND
-    if(ans === 4400) {
+    if(ans === 4080) {
         alert("Correct! You fully understand the new rules.");
         showTreatmentScreen();
     } else {
